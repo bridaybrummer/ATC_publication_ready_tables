@@ -2,15 +2,16 @@
 title: "publication_ready_tables"
 format: docx
 editor: visual
+reference-doc: "Extras/NMC_reference.docx"
 ---
 
-## Quarto
+## Running Quarto
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Quarto is a next generation version of Rmakrdown. It can handle multiple programming language and is slight faster. Some instances do not handle outputs to word documents as well as Rmarkdown.
 
 ## Running Code
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+Generally YAML is slightly difference and code chunks are in lower case. Knitr can still setup some of the defaults.
 
 ```{r, setup}
 #| echo: false

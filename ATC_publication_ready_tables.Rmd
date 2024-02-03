@@ -1,0 +1,229 @@
+---
+author: the National Institute for Communicable Diseases
+output:
+  bookdown::word_document2:
+    pandoc_args:
+#    - "--filter=pandoc-crossref"
+#    - "--reference-doc=Extras/June-report_working_reference.docx"
+    - "--reference-doc=Extras/NMC_reference.docx"
+#    - "--lua-filter=extras/scholarly-metadata.lua"
+#    - "--lua-filter=extras/author-info-blocks.lua"
+#   - "--variable=geometry:\"[portrait,landscape]\""
+    fig_caption: true
+    number_sections: true
+    toc: false
+    toc_depth: 2
+    date:
+      format: '%Y%m%d'
+#    toc: yes
+
+title: "NOTIFIABLE MEDICAL CONDITIONS SURVEILLANCE SYSTEM"
+always_allow_html: true
+---
+
+```{r setup, include=FALSE}
+
+# Install pacman if not already installed
+if (!requireNamespace("pacman", quietly = TRUE)) {
+  install.packages("pacman")
+}
+
+# Load pacman
+library(pacman)
+
+# Use pacman to install and load packages
+p_load(
+  tidyverse,
+  dplyr,
+  ggplot2,
+  knitr,
+  tinytex,
+#  haven,
+  janitor,
+#  summarytools,
+#  lubridate,
+  grates,
+#  forcats,
+  magrittr,
+  gtsummary, 
+  flextable,
+  officer,
+  kableExtra
+#  RecorLinkage,
+# openai,
+#  DescTools
+)
+
+
+# this removes objects in the environemtn and 
+#rm(list = ls())
+# and clears space
+#gc()
+
+# set flextable defaults
+flextable::set_flextable_defaults(
+  font.family = "Century Gothic", 
+  font.size = 8, 
+  header.font.size = 9,
+  border.color = "black")
+
+
+
+# set gtsummary defaults
+gtsummary::theme_gtsummary_language(language = "en",
+                                    big.mark = " ", 
+                                    decimal.mark = ".")
+
+# set rmakrdwon outputs
+knitr::opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE, out.width = "100%")
+
+# this is a fucntion to remove the first blank column of a gtsummary object. 
+trim_tbl <- function(gt_summary_object) {
+  length_table_body <- gt_summary_object$table_body %>% nrow()
+  gt_summary_object$table_body <- gt_summary_object$table_body[2:length_table_body, ]
+  return(gt_summary_object)
+}
+
+library(kableExtra)
+# Replace the URL with your desired hyperlink
+tidyverse_url <- "https://www.tidyverse.org/packages/"
+
+gtsummary_url <- "https://www.danieldsjoberg.com/gtsummary/"
+
+flextable_url <- "https://ardata-fr.github.io/flextable-book/"
+
+ggplot_url <- "https://ggplot2.tidyverse.org/"
+
+NMCSS_url <- "https://www.nicd.ac.za/nmc-overview/nmc-monthly-surveillance-report/"
+
+```
+
+# Introduction
+
+R markdown is a simple and easy to use plain text language used to combine your R code, results from your data analysis (including plots and tables) and written commentary into a single nicely formatted and reproducible document (like a report, publication, thesis chapter or a web page like this one). There is also quarto which is a next generation Rmarkdown which can handle multiple languages and is slightly faster, however it does not handle some outputs to word as well Rmarkdown (like figure and table cross referencing) although it will likely handle these in future updates.
+
+# Purpose  {.unnumbered}
+
+The purpose of this session (and document) is to show you how to produce some publication ready tables and publish it to a word document (.docx)  from Rmarkdown. 
+We will mainly be using tools from the [tidyverse](`r tidyverse_url`), [gtsummary](`r gtsummary_url`), [flextable](`r flextable_url`), and [ggplot2](`r ggplot_url`) packages. 
+
+# Methods
+
+A selection of code chunks will be given with built in data sets to run. Then a dataset will be given to import and and code chunks to run that are similar to the Monthly [NMCSS Surveillance](`r NMCSS_url`) report. 
+
+\newpage
+
+```{r, tab-first, fig.cap = ""}
+first<- trial %>%
+  tbl_summary() 
+
+first%>%  as_flex_table %>%
+  flextable::set_caption("The first summary table caption")
+
+```
+See the Table \@ref(tab:tab-first) for the first output. We can also get values from the table, for instance, the median(IQR) age is `r inline_text(first, variable = age)`.
+
+\newpage
+
+
+```{r, tab-second, fig.cap = ""}
+
+trial %>%tbl_summary(by = trt) %>%as_flex_table %>%flextable::set_caption("The second summary table caption")
+
+```
+
+
+See \@ref(tab:tab-second)to see the second output of the session. 
+
+\newpage
+
+
+```{r, tab-stats, fig.cap = ""}
+
+trial %>%tbl_summary(by = trt) %>%
+  add_p%>%
+  add_overall%>%
+  add_ci%>%
+  as_flex_table %>%flextable::set_caption("The second summary table caption")
+
+```
+
+
+\newpage 
+
+```{r, tab-regression, fig.cap = ""}
+
+
+glm(death ~ age + marker + stage + grade+ response, data = trial)%>%
+  tbl_regression(., exponentiate = TRUE)%>%
+  as_flex_table %>%
+  flextable::set_caption("The regression summary table caption")
+
+```
+
+\newpage 
+
+We can also make a plot:
+
+```{r, figure, fig.cap = ""}
+
+nmc<- readxl::read_excel("december_ATC_practice.xlsx")
+
+dot_nmc1<-nmc%>%filter(nmccategories ==1, !is.na(prov_)) %>%
+  ggplot(., aes(x = prov_, y = condition, color = condition)) +
+  geom_count(show.legend = FALSE) +
+  scale_size_area(max_size = 15)+
+  labs(title = paste0("Notifications of category 2 within Each Province"),
+       x = "Province", y = "Condition") +
+  theme_minimal() +
+  #  scale_color_brewer(palette = "Set1")+
+  scale_color_viridis_d( option = "C") +
+  theme(text = element_text(family = "Century Gothic", size = 12, color = "#333333"),
+        panel.background = element_rect(fill = "#F8F8F8"),
+        plot.background = element_rect(fill = "#F8F8F8"),
+        panel.grid = element_line(color = "#DDDDDD"),
+        legend.background = element_rect(fill = "#F8F8F8"),
+        legend.text = element_text(color = "#333333"),
+        legend.title = element_text(color = "#333333", size = 10),
+        plot.title = element_text(size = 16, #face = "bold",
+                                  color = "#666666"),
+        plot.subtitle = element_text(size = 12, color = "#666666"),
+        plot.caption = element_text(size = 10, color = "#666666"),
+        legend.position = "bottom",
+        legend.direction = "vertical",
+        legend.key = element_blank()
+        #legend.title = element_blank()
+  ) +
+  guides(color = guide_legend(nrow = 10))
+
+dot_nmc1
+```
+
+\newpage 
+
+```{r nmc-table}
+
+case_def_labs<- nmc$case_definition%>%unique
+
+cat_1_glance<- nmc%>%
+  filter(nmccategories ==1)%>%
+  dplyr::select(condition , case_definition)%>%
+  tbl_summary(by = case_definition, 
+              percent = "row", 
+              statistic = list(all_categorical() ~ "{n}") )%>%
+  add_overall("after", statistic = ~"{n}")%>%
+  modify_header(label = "**Condition**",
+
+                all_stat_cols() ~ "**{level}**, \n N = {n}")%>%
+  
+  trim_tbl()%>%
+  modify_footnote(update = everything() ~ NA
+                  ) %>% modify_footnote(all_stat_cols() ~ "Suspected and confirmed cases are independent and are not totalled - suspected and confirmed cases are distinct.") 
+
+
+cat_1_glance%>%as_flex_table%>%
+   flextable::set_caption("The number of notifications that are suspected and confirmed for category 1 conditions.") %>%# Example: making the first row (header) bold
+    fontsize(, size = 9, part = "header")%>%
+  flextable::set_table_properties(layout = "autofit", width = 0.99)
+```

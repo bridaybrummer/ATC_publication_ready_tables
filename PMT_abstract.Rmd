@@ -1,0 +1,75 @@
+---
+title: SARS-CoV-2 post-mortem testing of out-of-hospital natural deaths - Mangaung metropolitan area, Free State Province, South Africa - August 2020 to August 2022.
+
+author:
+  - Brian Brummer:
+      email: brianb@nicd.ac.za
+      institute: [SAFETP, WITS]
+      correspondence: true
+  - Joy Ebonwu :
+      email: joye@nicd.ac.za
+      institute: [ACDC]
+      correspondence: false
+  - Motshabi Modise :
+      email: Motshabim@nicd.ac.za
+      institute: [SAFETP, NICD]
+  - Nelly Mabotsa :
+      email:
+      institute: [FSDOH]
+  - Akhona Tshangela: 
+      institute: [ACDC]
+  - Hetani Mdose :
+      email: hetanim@nicd.ac.za
+      institute: [SAFETP]
+  - Ramasedi Mokoena : 
+      email: ramasedis@yahoo.com
+      institute: [UFS]
+institute:
+  - SAFETP: South African Field Epidemiology Training Programme, NICD, Johannesburg, South Africa
+  - WITS: School of Publich Health, University of the Witwatersrand, Johannesburg, South Africa
+  - FSDOH: Free State Department of Health, Bophelo House, Bloemfontein, South Africa
+  - NICD: Division of Public Health, Surveillance and Response, National Institute for Communicable Diseases, Johannesburg, South Africa
+  - UFS: Community Health, Faculty of Health Science, University of Free State, Bloemfontein, South Africa
+  - ACDC: Africe Centres for Disease Control and Prevention, African Union, Addis Ababa, Ethiopia
+footnote:
+keywords: 
+  - Post-Mortem Testing
+  - Community Deaths
+  - COVID-19
+  - Surveillance
+date: ""
+output:
+  bookdown::word_document2:
+    pandoc_args:
+    - --csl=Extras/sage-vancouver.csl
+    - --citation-abbreviations=Extras/abbreviations.json
+    - --filter=pandoc-crossref
+    - --lua-filter=Extras/scholarly-metadata.lua
+    - --lua-filter=Extras/author-info-blocks.lua
+    - --reference-doc=Extras/Reference_Document.docx
+  bookdown::pdf_document2:
+    pandoc_args:
+    - "--csl=Extras/clinical-mass-spectrometry.csl"
+    - "--citation-abbreviations=Extras/abbreviations.json"
+    - "--filter=pandoc-crossref"
+    - "--lua-filter=Extras/scholarly-metadata.lua"
+    - "--lua-filter=Extras/author-info-blocks.lua"
+  word_document: default
+---
+
+Word count: `r as.integer(sub("(\\d+).+$", "\\1", system(sprintf("wc -w %s", knitr::current_input()), intern = TRUE))) - 20`
+
+__Background:__ Accurate and timely reporting of deaths due to COVID–19 infection is critical to ongoing public health surveillance and response. Excess mortality reports by the South African Medical Research Council suggest underreporting of COVID-19 related deaths, as routine COVID-19 death surveillance utilizes mainly data on hospitalised patients. SARS-CoV-2 post-mortem testing (PMT) for persons who died of natural causes out-of-hospital was implemented in South Africa and rapid mortality surveillance optimised at selected districts in the Free State Province (FSP).
+
+__Aims and Objectives:__ We provide information on the testing and positivity rate of PMT in the Mangaung metropolitan area, FSP, from August 2020 to August 2022. 
+
+__Methods:__ 
+We compiled a repository of out-of-hospital, natural deaths using both public and private mortuary registers in the Mangaung metropolitan area, from August 2020 to August 2022. The repository was linked to the cumulative COVID-19 laboratory test data and case line list, then the outcome was recorded in the Go.data outbreak management system which was harmonised with the case line list. We report the PMTs conducted and COVID-19-associated deaths using descriptive statistics.
+
+__Results:__ During the analysis period, a total of 5150 out-of-hospital natural deaths were recorded, 56% (n=2885) had SARS-CoV-2 PMT conducted. Private funeral parlours performed 26% (n=744) of the PMTs. The positivity rate was 20% (574/2885). There was female predominance (56%; 325/575). Within the review period and geographical area 2797 COVID-19-related deaths were reported with the following proportions:  PMT 20% (574/2797), community ante-mortem tested 15% (405/2797), and hospital deaths 65% (1818/2797).
+
+__Conclusion:__ The number of reported COVID-19-related deaths was enhanced by implementing SARS-CoV-2 post-mortem testing of out-of-hospital natural deaths and linking mortuary registers with COVID-19 laboratory test data and case line lists.
+
+
+
+
