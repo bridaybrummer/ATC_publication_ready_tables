@@ -16,8 +16,6 @@ You can find more information on what needs to be pre-installed here [GitHub]("h
 
 Remember that if you are on a Mac, you may need to install homebrew if you haven't already [homebrew](https://brew.sh/). (This allows you to install things from the terminal).
 
-```html
-<button class="copy-button" data-clipboard-target="#code-snippet">Copy</button>
-<pre><code id="code-snippet">
+```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
-</code></pre>
+```
