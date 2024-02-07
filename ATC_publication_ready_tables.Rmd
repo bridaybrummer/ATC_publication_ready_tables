@@ -33,6 +33,7 @@ library(pacman)
 
 # Use pacman to install and load packages
 p_load(
+  readxl,
   tidyverse,
   dplyr,
   ggplot2,
