@@ -311,7 +311,7 @@ gg2word(map_notifications, directory_name = "plots")
 
 ```
 
-```{r}
+```{r, include = FALSE}
 
 
 as_epicurve_excel <- function(.) {
@@ -361,7 +361,9 @@ xtabs(~ gender, data = salmonella1)
 tabyl(dat  =salmonella, gender)
 
 df1<-salmonella1
+```
 
+```{r}
 #source("epicurve.R")
   min <- min(df1$notification_date) # to be used in a function 
   max<- max(df1$notification_date)
@@ -404,7 +406,7 @@ gg2word(epicurve, directory_name = "plots")
 
 ```
 
-# Make a descriptive table of the salmonella dataset. 
+# Make a publication ready descriptive table of the salmonella dataset. 
 
 
 
